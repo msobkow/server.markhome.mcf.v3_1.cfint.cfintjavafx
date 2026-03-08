@@ -1,0 +1,633 @@
+// Description: Java 25 JavaFX List of Obj Pane implementation for MimeType.
+
+/*
+ *	server.markhome.mcf.CFInt
+ *
+ *	Copyright (c) 2016-2026 Mark Stephen Sobkow
+ *	
+ *	Mark's Code Fractal 3.1 CFInt - Internet Essentials
+ *	
+ *	This file is part of Mark's Code Fractal CFInt.
+ *	
+ *	Mark's Code Fractal CFInt is available under dual commercial license from
+ *	Mark Stephen Sobkow, or under the terms of the GNU Library General Public License,
+ *	Version 3 or later.
+ *	
+ *	Mark's Code Fractal CFInt is free software: you can redistribute it and/or
+ *	modify it under the terms of the GNU Library General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	Mark's Code Fractal CFInt is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *	
+ *	You should have received a copy of the GNU Library General Public License
+ *	along with Mark's Code Fractal CFInt.  If not, see <https://www.gnu.org/licenses/>.
+ *	
+ *	If you wish to modify and use this code without publishing your changes in order to
+ *	tie it to proprietary code, please contact Mark Stephen Sobkow
+ *	for a commercial license at mark.sobkow@gmail.com
+ *	
+ */
+
+package server.markhome.mcf.v3_1.cfint.cfintjavafx;
+
+import java.math.*;
+import java.time.*;
+import java.util.*;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
+import javafx.util.Callback;
+import server.markhome.mcf.v3_1.cflib.*;
+import server.markhome.mcf.v3_1.cflib.dbutil.*;
+import server.markhome.mcf.v3_1.cflib.inz.Inz;
+import server.markhome.mcf.v3_1.cflib.javafx.*;
+import org.apache.commons.codec.binary.Base64;
+import server.markhome.mcf.v3_1.cfsec.cfsec.*;
+import server.markhome.mcf.v3_1.cfint.cfint.*;
+import server.markhome.mcf.v3_1.cfsec.cfsecobj.*;
+import server.markhome.mcf.v3_1.cfint.cfintobj.*;
+import server.markhome.mcf.v3_1.cfsec.cfsecjavafx.*;
+
+/**
+ *	CFIntJavaFXMimeTypeListPane JavaFX List of Obj Pane implementation
+ *	for MimeType.
+ */
+public class CFIntJavaFXMimeTypeListPane
+extends CFBorderPane
+implements ICFIntJavaFXMimeTypePaneList
+{
+	public static String S_FormName = "List MIME Type";
+	protected ICFIntJavaFXSchema javafxSchema = null;
+	protected Collection<ICFIntMimeTypeObj> javafxDataCollection = null;
+	protected ObservableList<ICFIntMimeTypeObj> observableListOfMimeType = null;
+	protected ScrollPane scrollMenu = null;
+	protected CFHBox hboxMenu = null;
+	protected CFButton buttonAddMimeType = null;
+	protected CFButton buttonViewSelected = null;
+	protected CFButton buttonEditSelected = null;
+	protected CFButton buttonDeleteSelected = null;
+	protected TableView<ICFIntMimeTypeObj> dataTable = null;
+	protected TableColumn<ICFIntMimeTypeObj, Integer> tableColumnMimeTypeId = null;
+	protected TableColumn<ICFIntMimeTypeObj, String> tableColumnName = null;
+	protected TableColumn<ICFIntMimeTypeObj, String> tableColumnFileTypes = null;
+
+	public final String S_ColumnNames[] = { "Name" };
+	protected ICFFormManager cfFormManager = null;
+	protected boolean javafxIsInitializing = true;
+	protected boolean javafxSortByChain = false;
+	protected ICFLibAnyObj javafxContainer = null;
+	protected ICFRefreshCallback javafxRefreshCallback = null;
+	class ViewEditClosedCallback implements ICFFormClosedCallback {
+		public ViewEditClosedCallback() {
+		}
+
+		@Override
+		public void formClosed( ICFLibAnyObj affectedObject ) {
+			if( affectedObject != null ) {
+				refreshMe();
+			}
+		}
+	}
+
+	protected ViewEditClosedCallback viewEditClosedCallback = null;
+
+	public ICFFormClosedCallback getViewEditClosedCallback() {
+		if( viewEditClosedCallback == null ) {
+			viewEditClosedCallback = new ViewEditClosedCallback();
+		}
+		return( viewEditClosedCallback );
+	}
+
+	class DeleteCallback implements ICFDeleteCallback {
+		public DeleteCallback() {
+		}
+		@Override
+		public void deleted( ICFLibAnyObj deletedObject ) {
+			if( deletedObject != null ) {
+				refreshMe();
+			}
+		}
+
+		@Override
+		public void formClosed( ICFLibAnyObj affectedObject ) {
+			if( affectedObject != null ) {
+				refreshMe();
+			}
+		}
+	}
+
+	protected DeleteCallback deleteCallback = null;
+
+	public ICFDeleteCallback getDeleteCallback() {
+		if( deleteCallback == null ) {
+			deleteCallback = new DeleteCallback();
+		}
+		return( deleteCallback );
+	}
+
+
+	public CFIntJavaFXMimeTypeListPane( ICFFormManager formManager,
+		ICFIntJavaFXSchema argSchema,
+		ICFLibAnyObj argContainer,
+		ICFIntMimeTypeObj argFocus,
+		Collection<ICFIntMimeTypeObj> argDataCollection,
+		ICFRefreshCallback refreshCallback,
+		boolean sortByChain )
+	{
+		super();
+		final String S_ProcName = "construct-schema-focus";
+		if( formManager == null ) {
+			throw new CFLibNullArgumentException( getClass(),
+				S_ProcName,
+				1,
+				"formManager" );
+		}
+		cfFormManager = formManager;
+		if( argSchema == null ) {
+			throw new CFLibNullArgumentException( getClass(),
+				S_ProcName,
+				2,
+				"argSchema" );
+		}
+		// argFocus is optional; focus may be set later during execution as
+		// conditions of the runtime change.
+		javafxSchema = argSchema;
+		javaFXFocus = argFocus;
+		javafxContainer = argContainer;
+		javafxRefreshCallback = refreshCallback;
+		javafxSortByChain = sortByChain;
+		setJavaFXDataCollection( argDataCollection );
+		dataTable = new TableView<ICFIntMimeTypeObj>();
+		tableColumnMimeTypeId = new TableColumn<ICFIntMimeTypeObj,Integer>( "MIME Type Id" );
+		tableColumnMimeTypeId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMimeTypeObj,Integer>,ObservableValue<Integer> >() {
+			public ObservableValue<Integer> call( CellDataFeatures<ICFIntMimeTypeObj, Integer> p ) {
+				ICFIntMimeTypeObj obj = p.getValue();
+				if( obj == null ) {
+					return( null );
+				}
+				else {
+					int value = obj.getRequiredMimeTypeId();
+					Integer wrapped = Integer.valueOf( value );
+					ReadOnlyObjectWrapper<Integer> observable = new ReadOnlyObjectWrapper<Integer>();
+					observable.setValue( wrapped );
+					return( observable );
+				}
+			}
+		});
+		tableColumnMimeTypeId.setCellFactory( new Callback<TableColumn<ICFIntMimeTypeObj,Integer>,TableCell<ICFIntMimeTypeObj,Integer>>() {
+			@Override public TableCell<ICFIntMimeTypeObj,Integer> call(
+				TableColumn<ICFIntMimeTypeObj,Integer> arg)
+			{
+				return new CFInt32TableCell<ICFIntMimeTypeObj>();
+			}
+		});
+		dataTable.getColumns().add( tableColumnMimeTypeId );
+		tableColumnName = new TableColumn<ICFIntMimeTypeObj,String>( "Name" );
+		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMimeTypeObj,String>,ObservableValue<String> >() {
+			public ObservableValue<String> call( CellDataFeatures<ICFIntMimeTypeObj, String> p ) {
+				ICFIntMimeTypeObj obj = p.getValue();
+				if( obj == null ) {
+					return( null );
+				}
+				else {
+					String value = obj.getRequiredName();
+					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
+					observable.setValue( value );
+					return( observable );
+				}
+			}
+		});
+		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntMimeTypeObj,String>,TableCell<ICFIntMimeTypeObj,String>>() {
+			@Override public TableCell<ICFIntMimeTypeObj,String> call(
+				TableColumn<ICFIntMimeTypeObj,String> arg)
+			{
+				return new CFStringTableCell<ICFIntMimeTypeObj>();
+			}
+		});
+		dataTable.getColumns().add( tableColumnName );
+		tableColumnFileTypes = new TableColumn<ICFIntMimeTypeObj,String>( "FileTypes" );
+		tableColumnFileTypes.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMimeTypeObj,String>,ObservableValue<String> >() {
+			public ObservableValue<String> call( CellDataFeatures<ICFIntMimeTypeObj, String> p ) {
+				ICFIntMimeTypeObj obj = p.getValue();
+				if( obj == null ) {
+					return( null );
+				}
+				else {
+					String value = obj.getOptionalFileTypes();
+					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
+					observable.setValue( value );
+					return( observable );
+				}
+			}
+		});
+		tableColumnFileTypes.setCellFactory( new Callback<TableColumn<ICFIntMimeTypeObj,String>,TableCell<ICFIntMimeTypeObj,String>>() {
+			@Override public TableCell<ICFIntMimeTypeObj,String> call(
+				TableColumn<ICFIntMimeTypeObj,String> arg)
+			{
+				return new CFStringTableCell<ICFIntMimeTypeObj>();
+			}
+		});
+		dataTable.getColumns().add( tableColumnFileTypes );
+		dataTable.getSelectionModel().selectedItemProperty().addListener(
+			new ChangeListener<ICFIntMimeTypeObj>() {
+				@Override public void changed( ObservableValue<? extends ICFIntMimeTypeObj> observable,
+					ICFIntMimeTypeObj oldValue,
+					ICFIntMimeTypeObj newValue )
+				{
+					setJavaFXFocus( newValue );
+				}
+			});
+
+		scrollMenu = new ScrollPane();
+		scrollMenu.setVbarPolicy( ScrollBarPolicy.NEVER );
+		scrollMenu.setHbarPolicy( ScrollBarPolicy.AS_NEEDED );
+		scrollMenu.setFitToHeight( true );
+		scrollMenu.setContent( getPanelHBoxMenu() );
+
+		setTop( scrollMenu );
+		setCenter( dataTable );
+		javafxIsInitializing = false;
+		if( observableListOfMimeType != null ) {
+			dataTable.setItems( observableListOfMimeType );
+		}
+		adjustListButtons();
+	}
+
+	public ICFFormManager getCFFormManager() {
+		return( cfFormManager );
+	}
+
+	public void setCFFormManager( ICFFormManager value ) {
+		final String S_ProcName = "setCFFormManager";
+		if( value == null ) {
+			throw new CFLibNullArgumentException( getClass(),
+				S_ProcName,
+				1,
+				"value" );
+		}
+		cfFormManager = value;
+	}
+
+	public ICFIntJavaFXSchema getJavaFXSchema() {
+		return( javafxSchema );
+	}
+
+	public void setPaneMode( CFPane.PaneMode value ) {
+		super.setPaneMode( value );
+		adjustListButtons();
+	}
+
+	public void setJavaFXFocus( ICFLibAnyObj value ) {
+		final String S_ProcName = "setJavaFXFocus";
+		if( ( value == null ) || ( value instanceof ICFIntMimeTypeObj ) ) {
+			super.setJavaFXFocus( value );
+		}
+		else {
+			throw new CFLibUnsupportedClassException( getClass(),
+				S_ProcName,
+				"value",
+				value,
+				"ICFIntMimeTypeObj" );
+		}
+		adjustListButtons();
+	}
+
+	public ICFIntMimeTypeObj getJavaFXFocusAsMimeType() {
+		return( (ICFIntMimeTypeObj)getJavaFXFocus() );
+	}
+
+	public void setJavaFXFocusAsMimeType( ICFIntMimeTypeObj value ) {
+		setJavaFXFocus( value );
+	}
+
+	public class MimeTypeByQualNameComparator
+	implements Comparator<ICFIntMimeTypeObj>
+	{
+		public MimeTypeByQualNameComparator() {
+		}
+
+		public int compare( ICFIntMimeTypeObj lhs, ICFIntMimeTypeObj rhs ) {
+			if( lhs == null ) {
+				if( rhs == null ) {
+					return( 0 );
+				}
+				else {
+					return( -1 );
+				}
+			}
+			else if( rhs == null ) {
+				return( 1 );
+			}
+			else {
+				String lhsValue = lhs.getObjQualifiedName();
+				String rhsValue = rhs.getObjQualifiedName();
+				if( lhsValue == null ) {
+					if( rhsValue == null ) {
+						return( 0 );
+					}
+					else {
+						return( -1 );
+					}
+				}
+				else if( rhsValue == null ) {
+					return( 1 );
+				}
+				else {
+					return( lhsValue.compareTo( rhsValue ) );
+				}
+			}
+		}
+	}
+
+	protected MimeTypeByQualNameComparator compareMimeTypeByQualName = new MimeTypeByQualNameComparator();
+
+	public Collection<ICFIntMimeTypeObj> getJavaFXDataCollection() {
+		return( javafxDataCollection );
+	}
+
+	public void setJavaFXDataCollection( Collection<ICFIntMimeTypeObj> value ) {
+		final String S_ProcName = "setJavaFXDataCollection";
+		javafxDataCollection = value;
+		observableListOfMimeType = FXCollections.observableArrayList();
+		if( javafxDataCollection != null ) {
+				Iterator<ICFIntMimeTypeObj> iter = javafxDataCollection.iterator();
+				while( iter.hasNext() ) {
+					observableListOfMimeType.add( iter.next() );
+				}
+				observableListOfMimeType.sort( compareMimeTypeByQualName );
+		}
+		if( dataTable != null ) {
+			dataTable.setItems( observableListOfMimeType );
+			// Hack from stackoverflow to fix JavaFX TableView refresh issue
+			((TableColumn)dataTable.getColumns().get(0)).setVisible( false );
+			((TableColumn)dataTable.getColumns().get(0)).setVisible( true );
+		}
+	}
+
+	protected class CompareCFButtonByText
+	implements Comparator<CFButton>
+	{
+		public CompareCFButtonByText() {
+		}
+
+		@Override public int compare( CFButton lhs, CFButton rhs ) {
+			if( lhs == null ) {
+				if( rhs == null ) {
+					return( 0 );
+				}
+				else {
+					return( -1 );
+				}
+			}
+			else if( rhs == null ) {
+				return( 1 );
+			}
+			else {
+				int retval = lhs.getText().compareTo( rhs.getText() );
+				return( retval );
+			}
+		}
+	}
+
+	public CFHBox getPanelHBoxMenu() {
+		if( hboxMenu == null ) {
+			hboxMenu = new CFHBox( 10 );
+			buttonAddMimeType = new CFButton();
+			buttonAddMimeType.setMinWidth( 200 );
+			buttonAddMimeType.setText( "Add MIME Type" );
+			buttonAddMimeType.setOnAction( new EventHandler<ActionEvent>() {
+				@Override public void handle( ActionEvent e ) {
+					final String S_ProcName = "handle";
+					try {
+						ICFIntSchemaObj schemaObj = (ICFIntSchemaObj)javafxSchema.getSchema();
+						ICFIntMimeTypeObj obj = (ICFIntMimeTypeObj)schemaObj.getMimeTypeTableObj().newInstance();
+						ICFIntMimeTypeEditObj edit = (ICFIntMimeTypeEditObj)( obj.beginEdit() );
+						if( edit == null ) {
+							throw new CFLibNullArgumentException( getClass(),
+								S_ProcName,
+								0,
+								"edit" );
+						}
+						CFBorderPane frame = javafxSchema.getMimeTypeFactory().newAddForm( cfFormManager, obj, getViewEditClosedCallback(), true );
+						ICFIntJavaFXMimeTypePaneCommon jpanelCommon = (ICFIntJavaFXMimeTypePaneCommon)frame;
+						jpanelCommon.setJavaFXFocus( obj );
+						jpanelCommon.setPaneMode( CFPane.PaneMode.Add );
+						cfFormManager.pushForm( frame );
+					}
+					catch( Throwable t ) {
+						CFConsole.formException( S_FormName, ((CFButton)e.getSource()).getText(), t );
+					}
+				}
+			});
+			hboxMenu.getChildren().add( buttonAddMimeType );
+			buttonViewSelected = new CFButton();
+			buttonViewSelected.setMinWidth( 200 );
+			buttonViewSelected.setText( "View Selected" );
+			buttonViewSelected.setOnAction( new EventHandler<ActionEvent>() {
+				@Override public void handle( ActionEvent e ) {
+					final String S_ProcName = "handle";
+					try {
+						ICFIntSchemaObj schemaObj = (ICFIntSchemaObj)javafxSchema.getSchema();
+						if( schemaObj == null ) {
+							throw new CFLibNullArgumentException( getClass(),
+								S_ProcName,
+								0,
+								"schemaObj" );
+						}
+						ICFIntMimeTypeObj selectedInstance = getJavaFXFocusAsMimeType();
+						if( selectedInstance != null ) {
+							int classCode = selectedInstance.getClassCode();
+							ICFSecSchema.ClassMapEntry entry = ICFIntSchema.getClassMapByRuntimeClassCode(classCode);
+							int backingClassCode = entry.getBackingClassCode();
+							if( entry.getSchemaName().equals("CFInt") && backingClassCode == ICFIntMimeType.CLASS_CODE ) {
+								CFBorderPane frame = javafxSchema.getMimeTypeFactory().newViewEditForm( cfFormManager, selectedInstance, getViewEditClosedCallback(), false );
+								((ICFIntJavaFXMimeTypePaneCommon)frame).setPaneMode( CFPane.PaneMode.View );
+								cfFormManager.pushForm( frame );
+							}
+							else {
+								throw new CFLibUnsupportedClassException( getClass(),
+									S_ProcName,
+									"selectedInstance",
+									selectedInstance,
+									"ICFIntMimeTypeObj" );
+							}
+						}
+					}
+					catch( Throwable t ) {
+						CFConsole.formException( S_FormName, ((CFButton)e.getSource()).getText(), t );
+					}
+				}
+			});
+			hboxMenu.getChildren().add( buttonViewSelected );
+
+			buttonEditSelected = new CFButton();
+			buttonEditSelected.setMinWidth( 200 );
+			buttonEditSelected.setText( "Edit Selected" );
+			buttonEditSelected.setOnAction( new EventHandler<ActionEvent>() {
+				@Override public void handle( ActionEvent e ) {
+					final String S_ProcName = "handle";
+					try {
+						ICFIntSchemaObj schemaObj = (ICFIntSchemaObj)javafxSchema.getSchema();
+						if( schemaObj == null ) {
+							throw new CFLibNullArgumentException( getClass(),
+								S_ProcName,
+								0,
+								"schemaObj" );
+						}
+						ICFIntMimeTypeObj selectedInstance = getJavaFXFocusAsMimeType();
+						if( selectedInstance != null ) {
+							int classCode = selectedInstance.getClassCode();
+							ICFSecSchema.ClassMapEntry entry = ICFIntSchema.getClassMapByRuntimeClassCode(classCode);
+							int backingClassCode = entry.getBackingClassCode();
+							if( entry.getSchemaName().equals("CFInt") && backingClassCode == ICFIntMimeType.CLASS_CODE ) {
+								CFBorderPane frame = javafxSchema.getMimeTypeFactory().newViewEditForm( cfFormManager, selectedInstance, getViewEditClosedCallback(), false );
+								((ICFIntJavaFXMimeTypePaneCommon)frame).setPaneMode( CFPane.PaneMode.Edit );
+								cfFormManager.pushForm( frame );
+							}
+							else {
+								throw new CFLibUnsupportedClassException( getClass(),
+									S_ProcName,
+									"selectedInstance",
+									selectedInstance,
+									"ICFIntMimeTypeObj" );
+							}
+						}
+					}
+					catch( Throwable t ) {
+						CFConsole.formException( S_FormName, ((CFButton)e.getSource()).getText(), t );
+					}
+				}
+			});
+			hboxMenu.getChildren().add( buttonEditSelected );
+
+			buttonDeleteSelected = new CFButton();
+			buttonDeleteSelected.setMinWidth( 200 );
+			buttonDeleteSelected.setText( "Delete Selected" );
+			buttonDeleteSelected.setOnAction( new EventHandler<ActionEvent>() {
+				@Override public void handle( ActionEvent e ) {
+					final String S_ProcName = "handle";
+					try {
+						ICFIntSchemaObj schemaObj = (ICFIntSchemaObj)javafxSchema.getSchema();
+						if( schemaObj == null ) {
+							throw new CFLibNullArgumentException( getClass(),
+								S_ProcName,
+								0,
+								"schemaObj" );
+						}
+						ICFIntMimeTypeObj selectedInstance = getJavaFXFocusAsMimeType();
+						if( selectedInstance != null ) {
+							int classCode = selectedInstance.getClassCode();
+							ICFSecSchema.ClassMapEntry entry = ICFIntSchema.getClassMapByRuntimeClassCode(classCode);
+							int backingClassCode = entry.getBackingClassCode();
+							if( entry.getSchemaName().equals("CFInt") && backingClassCode == ICFIntMimeType.CLASS_CODE ) {
+								CFBorderPane frame = javafxSchema.getMimeTypeFactory().newAskDeleteForm( cfFormManager, selectedInstance, getDeleteCallback() );
+								((ICFIntJavaFXMimeTypePaneCommon)frame).setPaneMode( CFPane.PaneMode.View );
+								cfFormManager.pushForm( frame );
+							}
+							else {
+								throw new CFLibUnsupportedClassException( getClass(),
+									S_ProcName,
+									"selectedInstance",
+									selectedInstance,
+									"ICFIntMimeTypeObj" );
+							}
+						}
+					}
+					catch( Throwable t ) {
+						CFConsole.formException( S_FormName, ((CFButton)e.getSource()).getText(), t );
+					}
+				}
+			});
+			hboxMenu.getChildren().add( buttonDeleteSelected );
+
+		}
+		return( hboxMenu );
+	}
+
+	public ICFLibAnyObj getJavaFXContainer() {
+		return( javafxContainer );
+	}
+
+	public void setJavaFXContainer( ICFLibAnyObj value ) {
+		javafxContainer = value;
+	}
+
+	public void refreshMe() {
+		if( javafxRefreshCallback != null ) {
+			javafxRefreshCallback.refreshMe();
+		}
+	}
+
+	public void adjustListButtons() {
+		boolean enableState;
+		boolean inEditState;
+		boolean allowAdds;
+		boolean inAddMode = false;
+		ICFIntMimeTypeObj selectedObj = getJavaFXFocusAsMimeType();
+		CFPane.PaneMode mode = getPaneMode();
+		if( mode == CFPane.PaneMode.Edit ) {
+			inEditState = true;
+			allowAdds = false;
+		}
+		else {
+			inEditState = false;
+			if( getJavaFXContainer() != null ) {
+				if( getLeft() != null ) {
+					allowAdds = false;
+					inAddMode = true;
+				}
+				else {
+					allowAdds = true;
+				}
+			}
+			else {
+				allowAdds = false;
+			}
+		}
+		if( selectedObj == null ) {
+			enableState = false;
+		}
+		else {
+			if( ( ! inAddMode ) && ( ! inEditState ) ) {
+				enableState = true;
+			}
+			else {
+				enableState = false;
+			}
+		}
+
+		if( buttonViewSelected != null ) {
+			buttonViewSelected.setDisable( ! enableState );
+		}
+		if( buttonEditSelected != null ) {
+			if( inEditState ) {
+				buttonEditSelected.setDisable( true );
+			}
+			else {
+				buttonEditSelected.setDisable( ! enableState );
+			}
+		}
+		if( buttonDeleteSelected != null ) {
+			buttonDeleteSelected.setDisable( ! enableState );
+		}
+		if( buttonAddMimeType != null ) {
+			buttonAddMimeType.setDisable( ! allowAdds );
+		}
+
+	}
+}
