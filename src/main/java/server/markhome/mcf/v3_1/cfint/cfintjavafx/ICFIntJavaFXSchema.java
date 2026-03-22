@@ -67,8 +67,6 @@ public interface ICFIntJavaFXSchema
 
 	public ICFSecJavaFXClusterFactory getClusterFactory();
 
-	public ICFSecJavaFXHostNodeFactory getHostNodeFactory();
-
 	public ICFSecJavaFXISOCcyFactory getISOCcyFactory();
 
 	public ICFSecJavaFXISOCtryFactory getISOCtryFactory();
@@ -89,31 +87,35 @@ public interface ICFIntJavaFXSchema
 
 	public ICFIntJavaFXMinorVersionFactory getMinorVersionFactory();
 
-	public ICFSecJavaFXSecDeviceFactory getSecDeviceFactory();
+	public ICFSecJavaFXSecClusGrpFactory getSecClusGrpFactory();
 
-	public ICFSecJavaFXSecGroupFactory getSecGroupFactory();
+	public ICFSecJavaFXSecClusGrpIncFactory getSecClusGrpIncFactory();
 
-	public ICFSecJavaFXSecGrpIncFactory getSecGrpIncFactory();
-
-	public ICFSecJavaFXSecGrpMembFactory getSecGrpMembFactory();
+	public ICFSecJavaFXSecClusGrpMembFactory getSecClusGrpMembFactory();
 
 	public ICFSecJavaFXSecSessionFactory getSecSessionFactory();
 
+	public ICFSecJavaFXSecSysGrpFactory getSecSysGrpFactory();
+
+	public ICFSecJavaFXSecSysGrpIncFactory getSecSysGrpIncFactory();
+
+	public ICFSecJavaFXSecSysGrpMembFactory getSecSysGrpMembFactory();
+
+	public ICFSecJavaFXSecTentGrpFactory getSecTentGrpFactory();
+
+	public ICFSecJavaFXSecTentGrpIncFactory getSecTentGrpIncFactory();
+
+	public ICFSecJavaFXSecTentGrpMembFactory getSecTentGrpMembFactory();
+
 	public ICFSecJavaFXSecUserFactory getSecUserFactory();
 
-	public ICFSecJavaFXServiceFactory getServiceFactory();
+	public ICFSecJavaFXSecUserPWHistoryFactory getSecUserPWHistoryFactory();
 
-	public ICFSecJavaFXServiceTypeFactory getServiceTypeFactory();
+	public ICFSecJavaFXSecUserPasswordFactory getSecUserPasswordFactory();
 
 	public ICFIntJavaFXSubProjectFactory getSubProjectFactory();
 
 	public ICFSecJavaFXSysClusterFactory getSysClusterFactory();
-
-	public ICFSecJavaFXTSecGroupFactory getTSecGroupFactory();
-
-	public ICFSecJavaFXTSecGrpIncFactory getTSecGrpIncFactory();
-
-	public ICFSecJavaFXTSecGrpMembFactory getTSecGrpMembFactory();
 
 	public ICFSecJavaFXTenantFactory getTenantFactory();
 
