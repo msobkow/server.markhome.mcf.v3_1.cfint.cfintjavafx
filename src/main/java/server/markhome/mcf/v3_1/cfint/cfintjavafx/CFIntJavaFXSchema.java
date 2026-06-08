@@ -84,6 +84,7 @@ implements ICFIntJavaFXSchema
 	protected ICFSecJavaFXSecUserPasswordFactory factorySecUserPassword = null;
 	protected ICFIntJavaFXSubProjectFactory factorySubProject = null;
 	protected ICFSecJavaFXSysClusterFactory factorySysCluster = null;
+	protected ICFSecJavaFXTableInfoFactory factoryTableInfo = null;
 	protected ICFSecJavaFXTenantFactory factoryTenant = null;
 	protected ICFIntJavaFXTldFactory factoryTld = null;
 	protected ICFIntJavaFXTopDomainFactory factoryTopDomain = null;
@@ -485,6 +486,13 @@ implements ICFIntJavaFXSchema
 			factorySysCluster = new CFSecJavaFXSysClusterFactory( this );
 		}
 		return( factorySysCluster );
+	}
+
+	public ICFSecJavaFXTableInfoFactory getTableInfoFactory() {
+		if( factoryTableInfo == null ) {
+			factoryTableInfo = new CFSecJavaFXTableInfoFactory( this );
+		}
+		return( factoryTableInfo );
 	}
 
 	public ICFSecJavaFXTenantFactory getTenantFactory() {

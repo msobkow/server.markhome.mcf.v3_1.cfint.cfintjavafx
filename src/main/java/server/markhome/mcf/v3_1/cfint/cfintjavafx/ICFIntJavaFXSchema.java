@@ -131,6 +131,8 @@ public interface ICFIntJavaFXSchema
 
 	public ICFSecJavaFXSysClusterFactory getSysClusterFactory();
 
+	public ICFSecJavaFXTableInfoFactory getTableInfoFactory();
+
 	public ICFSecJavaFXTenantFactory getTenantFactory();
 
 	public ICFIntJavaFXTldFactory getTldFactory();
