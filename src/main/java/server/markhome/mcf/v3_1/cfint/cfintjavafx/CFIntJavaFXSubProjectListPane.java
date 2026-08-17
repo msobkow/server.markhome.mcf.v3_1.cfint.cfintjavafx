@@ -73,9 +73,9 @@ implements ICFIntJavaFXSubProjectPaneList
 	protected CFButton buttonEditSelected = null;
 	protected CFButton buttonDeleteSelected = null;
 	protected TableView<ICFIntSubProjectObj> dataTable = null;
-	protected TableColumn<ICFIntSubProjectObj, CFLibDbKeyHash256> tableColumnId = null;
-	protected TableColumn<ICFIntSubProjectObj, String> tableColumnName = null;
-	protected TableColumn<ICFIntSubProjectObj, String> tableColumnDescription = null;
+	protected TableColumn<ICFIntSubProjectObj, $implJavaOptAtomType$> tableColumnId = null;
+	protected TableColumn<ICFIntSubProjectObj, $implJavaOptAtomType$> tableColumnName = null;
+	protected TableColumn<ICFIntSubProjectObj, $implJavaOptAtomType$> tableColumnDescription = null;
 
 	public final String S_ColumnNames[] = { "Name" };
 	protected ICFFormManager cfFormManager = null;
@@ -164,70 +164,70 @@ implements ICFIntJavaFXSubProjectPaneList
 		javafxSortByChain = sortByChain;
 		setJavaFXDataCollection( argDataCollection );
 		dataTable = new TableView<ICFIntSubProjectObj>();
-		tableColumnId = new TableColumn<ICFIntSubProjectObj,CFLibDbKeyHash256>( "Id" );
-		tableColumnId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntSubProjectObj,CFLibDbKeyHash256>,ObservableValue<CFLibDbKeyHash256> >() {
-			public ObservableValue<CFLibDbKeyHash256> call( CellDataFeatures<ICFIntSubProjectObj, CFLibDbKeyHash256> p ) {
+		tableColumnId = new TableColumn<ICFIntSubProjectObj,$implJavaOptAtomType$>( "Id" );
+		tableColumnId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntSubProjectObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
+			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntSubProjectObj, $implJavaOptAtomType$> p ) {
 				ICFIntSubProjectObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					CFLibDbKeyHash256 value = obj.getRequiredId();
-					ReadOnlyObjectWrapper<CFLibDbKeyHash256> observable = new ReadOnlyObjectWrapper<CFLibDbKeyHash256>();
+					$implJavaAtomType$ value = obj.getRequiredId();
+					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnId.setCellFactory( new Callback<TableColumn<ICFIntSubProjectObj,CFLibDbKeyHash256>,TableCell<ICFIntSubProjectObj,CFLibDbKeyHash256>>() {
-			@Override public TableCell<ICFIntSubProjectObj,CFLibDbKeyHash256> call(
-				TableColumn<ICFIntSubProjectObj,CFLibDbKeyHash256> arg)
+		tableColumnId.setCellFactory( new Callback<TableColumn<ICFIntSubProjectObj,$implJavaOptAtomType$>,TableCell<ICFIntSubProjectObj,$implJavaOptAtomType$>>() {
+			@Override public TableCell<ICFIntSubProjectObj,$implJavaOptAtomType$> call(
+				TableColumn<ICFIntSubProjectObj,$implJavaOptAtomType$> arg)
 			{
 				return new CFDbKeyHash256TableCell<ICFIntSubProjectObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnId );
-		tableColumnName = new TableColumn<ICFIntSubProjectObj,String>( "Name" );
-		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntSubProjectObj,String>,ObservableValue<String> >() {
-			public ObservableValue<String> call( CellDataFeatures<ICFIntSubProjectObj, String> p ) {
+		tableColumnName = new TableColumn<ICFIntSubProjectObj,$implJavaOptAtomType$>( "Name" );
+		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntSubProjectObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
+			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntSubProjectObj, $implJavaOptAtomType$> p ) {
 				ICFIntSubProjectObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					String value = obj.getRequiredName();
-					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
+					$implJavaAtomType$ value = obj.getRequiredName();
+					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntSubProjectObj,String>,TableCell<ICFIntSubProjectObj,String>>() {
-			@Override public TableCell<ICFIntSubProjectObj,String> call(
-				TableColumn<ICFIntSubProjectObj,String> arg)
+		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntSubProjectObj,$implJavaOptAtomType$>,TableCell<ICFIntSubProjectObj,$implJavaOptAtomType$>>() {
+			@Override public TableCell<ICFIntSubProjectObj,$implJavaOptAtomType$> call(
+				TableColumn<ICFIntSubProjectObj,$implJavaOptAtomType$> arg)
 			{
 				return new CFStringTableCell<ICFIntSubProjectObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnName );
-		tableColumnDescription = new TableColumn<ICFIntSubProjectObj,String>( "Description" );
-		tableColumnDescription.setCellValueFactory( new Callback<CellDataFeatures<ICFIntSubProjectObj,String>,ObservableValue<String> >() {
-			public ObservableValue<String> call( CellDataFeatures<ICFIntSubProjectObj, String> p ) {
+		tableColumnDescription = new TableColumn<ICFIntSubProjectObj,$implJavaOptAtomType$>( "Description" );
+		tableColumnDescription.setCellValueFactory( new Callback<CellDataFeatures<ICFIntSubProjectObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
+			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntSubProjectObj, $implJavaOptAtomType$> p ) {
 				ICFIntSubProjectObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					String value = obj.getOptionalDescription();
-					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
+					$implJavaAtomType$ value = obj.getOptionalDescription();
+					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnDescription.setCellFactory( new Callback<TableColumn<ICFIntSubProjectObj,String>,TableCell<ICFIntSubProjectObj,String>>() {
-			@Override public TableCell<ICFIntSubProjectObj,String> call(
-				TableColumn<ICFIntSubProjectObj,String> arg)
+		tableColumnDescription.setCellFactory( new Callback<TableColumn<ICFIntSubProjectObj,$implJavaOptAtomType$>,TableCell<ICFIntSubProjectObj,$implJavaOptAtomType$>>() {
+			@Override public TableCell<ICFIntSubProjectObj,$implJavaOptAtomType$> call(
+				TableColumn<ICFIntSubProjectObj,$implJavaOptAtomType$> arg)
 			{
 				return new CFStringTableCell<ICFIntSubProjectObj>();
 			}

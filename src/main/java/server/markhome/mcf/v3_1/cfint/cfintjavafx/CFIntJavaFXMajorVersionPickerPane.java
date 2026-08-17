@@ -68,9 +68,9 @@ implements ICFIntJavaFXMajorVersionPaneList
 	protected ICFIntJavaFXSchema javafxSchema = null;
 	protected Collection<ICFIntMajorVersionObj> javafxDataCollection = null;
 	protected ObservableList<ICFIntMajorVersionObj> observableListOfMajorVersion = null;
-	protected TableColumn<ICFIntMajorVersionObj, CFLibDbKeyHash256> tableColumnId = null;
-	protected TableColumn<ICFIntMajorVersionObj, String> tableColumnName = null;
-	protected TableColumn<ICFIntMajorVersionObj, String> tableColumnDescription = null;
+	protected TableColumn<ICFIntMajorVersionObj, $implJavaOptAtomType$> tableColumnId = null;
+	protected TableColumn<ICFIntMajorVersionObj, $implJavaOptAtomType$> tableColumnName = null;
+	protected TableColumn<ICFIntMajorVersionObj, $implJavaOptAtomType$> tableColumnDescription = null;
 	protected TableView<ICFIntMajorVersionObj> dataTable = null;
 	protected CFHBox hboxMenu = null;
 	public final String S_ColumnNames[] = { "Name" };
@@ -117,70 +117,70 @@ implements ICFIntJavaFXMajorVersionPaneList
 		javafxContainer = argContainer;
 		setJavaFXDataCollection( argDataCollection );
 		dataTable = new TableView<ICFIntMajorVersionObj>();
-		tableColumnId = new TableColumn<ICFIntMajorVersionObj,CFLibDbKeyHash256>( "Id" );
-		tableColumnId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMajorVersionObj,CFLibDbKeyHash256>,ObservableValue<CFLibDbKeyHash256> >() {
-			public ObservableValue<CFLibDbKeyHash256> call( CellDataFeatures<ICFIntMajorVersionObj, CFLibDbKeyHash256> p ) {
+		tableColumnId = new TableColumn<ICFIntMajorVersionObj,$implJavaOptAtomType$>( "Id" );
+		tableColumnId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMajorVersionObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
+			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntMajorVersionObj, $implJavaOptAtomType$> p ) {
 				ICFIntMajorVersionObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					CFLibDbKeyHash256 value = obj.getRequiredId();
-					ReadOnlyObjectWrapper<CFLibDbKeyHash256> observable = new ReadOnlyObjectWrapper<CFLibDbKeyHash256>();
+					$implJavaAtomType$ value = obj.getRequiredId();
+					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnId.setCellFactory( new Callback<TableColumn<ICFIntMajorVersionObj,CFLibDbKeyHash256>,TableCell<ICFIntMajorVersionObj,CFLibDbKeyHash256>>() {
-			@Override public TableCell<ICFIntMajorVersionObj,CFLibDbKeyHash256> call(
-				TableColumn<ICFIntMajorVersionObj,CFLibDbKeyHash256> arg)
+		tableColumnId.setCellFactory( new Callback<TableColumn<ICFIntMajorVersionObj,$implJavaOptAtomType$>,TableCell<ICFIntMajorVersionObj,$implJavaOptAtomType$>>() {
+			@Override public TableCell<ICFIntMajorVersionObj,$implJavaOptAtomType$> call(
+				TableColumn<ICFIntMajorVersionObj,$implJavaOptAtomType$> arg)
 			{
 				return new CFDbKeyHash256TableCell<ICFIntMajorVersionObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnId );
-		tableColumnName = new TableColumn<ICFIntMajorVersionObj,String>( "Name" );
-		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMajorVersionObj,String>,ObservableValue<String> >() {
-			public ObservableValue<String> call( CellDataFeatures<ICFIntMajorVersionObj, String> p ) {
+		tableColumnName = new TableColumn<ICFIntMajorVersionObj,$implJavaOptAtomType$>( "Name" );
+		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMajorVersionObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
+			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntMajorVersionObj, $implJavaOptAtomType$> p ) {
 				ICFIntMajorVersionObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					String value = obj.getRequiredName();
-					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
+					$implJavaAtomType$ value = obj.getRequiredName();
+					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntMajorVersionObj,String>,TableCell<ICFIntMajorVersionObj,String>>() {
-			@Override public TableCell<ICFIntMajorVersionObj,String> call(
-				TableColumn<ICFIntMajorVersionObj,String> arg)
+		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntMajorVersionObj,$implJavaOptAtomType$>,TableCell<ICFIntMajorVersionObj,$implJavaOptAtomType$>>() {
+			@Override public TableCell<ICFIntMajorVersionObj,$implJavaOptAtomType$> call(
+				TableColumn<ICFIntMajorVersionObj,$implJavaOptAtomType$> arg)
 			{
 				return new CFStringTableCell<ICFIntMajorVersionObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnName );
-		tableColumnDescription = new TableColumn<ICFIntMajorVersionObj,String>( "Description" );
-		tableColumnDescription.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMajorVersionObj,String>,ObservableValue<String> >() {
-			public ObservableValue<String> call( CellDataFeatures<ICFIntMajorVersionObj, String> p ) {
+		tableColumnDescription = new TableColumn<ICFIntMajorVersionObj,$implJavaOptAtomType$>( "Description" );
+		tableColumnDescription.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMajorVersionObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
+			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntMajorVersionObj, $implJavaOptAtomType$> p ) {
 				ICFIntMajorVersionObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					String value = obj.getOptionalDescription();
-					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
+					$implJavaAtomType$ value = obj.getOptionalDescription();
+					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnDescription.setCellFactory( new Callback<TableColumn<ICFIntMajorVersionObj,String>,TableCell<ICFIntMajorVersionObj,String>>() {
-			@Override public TableCell<ICFIntMajorVersionObj,String> call(
-				TableColumn<ICFIntMajorVersionObj,String> arg)
+		tableColumnDescription.setCellFactory( new Callback<TableColumn<ICFIntMajorVersionObj,$implJavaOptAtomType$>,TableCell<ICFIntMajorVersionObj,$implJavaOptAtomType$>>() {
+			@Override public TableCell<ICFIntMajorVersionObj,$implJavaOptAtomType$> call(
+				TableColumn<ICFIntMajorVersionObj,$implJavaOptAtomType$> arg)
 			{
 				return new CFStringTableCell<ICFIntMajorVersionObj>();
 			}

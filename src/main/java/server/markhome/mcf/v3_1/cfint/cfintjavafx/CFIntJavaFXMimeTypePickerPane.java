@@ -68,9 +68,9 @@ implements ICFIntJavaFXMimeTypePaneList
 	protected ICFIntJavaFXSchema javafxSchema = null;
 	protected Collection<ICFIntMimeTypeObj> javafxDataCollection = null;
 	protected ObservableList<ICFIntMimeTypeObj> observableListOfMimeType = null;
-	protected TableColumn<ICFIntMimeTypeObj, Integer> tableColumnMimeTypeId = null;
-	protected TableColumn<ICFIntMimeTypeObj, String> tableColumnName = null;
-	protected TableColumn<ICFIntMimeTypeObj, String> tableColumnFileTypes = null;
+	protected TableColumn<ICFIntMimeTypeObj, $implJavaOptAtomType$> tableColumnMimeTypeId = null;
+	protected TableColumn<ICFIntMimeTypeObj, $implJavaOptAtomType$> tableColumnName = null;
+	protected TableColumn<ICFIntMimeTypeObj, $implJavaOptAtomType$> tableColumnFileTypes = null;
 	protected TableView<ICFIntMimeTypeObj> dataTable = null;
 	protected CFHBox hboxMenu = null;
 	public final String S_ColumnNames[] = { "Name" };
@@ -117,71 +117,71 @@ implements ICFIntJavaFXMimeTypePaneList
 		javafxContainer = argContainer;
 		setJavaFXDataCollection( argDataCollection );
 		dataTable = new TableView<ICFIntMimeTypeObj>();
-		tableColumnMimeTypeId = new TableColumn<ICFIntMimeTypeObj,Integer>( "MIME Type Id" );
-		tableColumnMimeTypeId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMimeTypeObj,Integer>,ObservableValue<Integer> >() {
-			public ObservableValue<Integer> call( CellDataFeatures<ICFIntMimeTypeObj, Integer> p ) {
+		tableColumnMimeTypeId = new TableColumn<ICFIntMimeTypeObj,$implJavaOptAtomType$>( "MIME Type Id" );
+		tableColumnMimeTypeId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMimeTypeObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
+			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntMimeTypeObj, $implJavaOptAtomType$> p ) {
 				ICFIntMimeTypeObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					int value = obj.getRequiredMimeTypeId();
-					Integer wrapped = Integer.valueOf( value );
-					ReadOnlyObjectWrapper<Integer> observable = new ReadOnlyObjectWrapper<Integer>();
+					$implJavaAtomType$ value = obj.getRequiredMimeTypeId();
+					$implJavaOptAtomType$ wrapped = $implJavaOptAtomType$.valueOf( value );
+					ReadOnlyObjectWrapper<$implJavaOptAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaOptAtomType$>();
 					observable.setValue( wrapped );
 					return( observable );
 				}
 			}
 		});
-		tableColumnMimeTypeId.setCellFactory( new Callback<TableColumn<ICFIntMimeTypeObj,Integer>,TableCell<ICFIntMimeTypeObj,Integer>>() {
-			@Override public TableCell<ICFIntMimeTypeObj,Integer> call(
-				TableColumn<ICFIntMimeTypeObj,Integer> arg)
+		tableColumnMimeTypeId.setCellFactory( new Callback<TableColumn<ICFIntMimeTypeObj,$implJavaOptAtomType$>,TableCell<ICFIntMimeTypeObj,$implJavaOptAtomType$>>() {
+			@Override public TableCell<ICFIntMimeTypeObj,$implJavaOptAtomType$> call(
+				TableColumn<ICFIntMimeTypeObj,$implJavaOptAtomType$> arg)
 			{
 				return new CFInt32TableCell<ICFIntMimeTypeObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnMimeTypeId );
-		tableColumnName = new TableColumn<ICFIntMimeTypeObj,String>( "Name" );
-		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMimeTypeObj,String>,ObservableValue<String> >() {
-			public ObservableValue<String> call( CellDataFeatures<ICFIntMimeTypeObj, String> p ) {
+		tableColumnName = new TableColumn<ICFIntMimeTypeObj,$implJavaOptAtomType$>( "Name" );
+		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMimeTypeObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
+			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntMimeTypeObj, $implJavaOptAtomType$> p ) {
 				ICFIntMimeTypeObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					String value = obj.getRequiredName();
-					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
+					$implJavaAtomType$ value = obj.getRequiredName();
+					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntMimeTypeObj,String>,TableCell<ICFIntMimeTypeObj,String>>() {
-			@Override public TableCell<ICFIntMimeTypeObj,String> call(
-				TableColumn<ICFIntMimeTypeObj,String> arg)
+		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntMimeTypeObj,$implJavaOptAtomType$>,TableCell<ICFIntMimeTypeObj,$implJavaOptAtomType$>>() {
+			@Override public TableCell<ICFIntMimeTypeObj,$implJavaOptAtomType$> call(
+				TableColumn<ICFIntMimeTypeObj,$implJavaOptAtomType$> arg)
 			{
 				return new CFStringTableCell<ICFIntMimeTypeObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnName );
-		tableColumnFileTypes = new TableColumn<ICFIntMimeTypeObj,String>( "FileTypes" );
-		tableColumnFileTypes.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMimeTypeObj,String>,ObservableValue<String> >() {
-			public ObservableValue<String> call( CellDataFeatures<ICFIntMimeTypeObj, String> p ) {
+		tableColumnFileTypes = new TableColumn<ICFIntMimeTypeObj,$implJavaOptAtomType$>( "FileTypes" );
+		tableColumnFileTypes.setCellValueFactory( new Callback<CellDataFeatures<ICFIntMimeTypeObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
+			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntMimeTypeObj, $implJavaOptAtomType$> p ) {
 				ICFIntMimeTypeObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					String value = obj.getOptionalFileTypes();
-					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
+					$implJavaAtomType$ value = obj.getOptionalFileTypes();
+					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnFileTypes.setCellFactory( new Callback<TableColumn<ICFIntMimeTypeObj,String>,TableCell<ICFIntMimeTypeObj,String>>() {
-			@Override public TableCell<ICFIntMimeTypeObj,String> call(
-				TableColumn<ICFIntMimeTypeObj,String> arg)
+		tableColumnFileTypes.setCellFactory( new Callback<TableColumn<ICFIntMimeTypeObj,$implJavaOptAtomType$>,TableCell<ICFIntMimeTypeObj,$implJavaOptAtomType$>>() {
+			@Override public TableCell<ICFIntMimeTypeObj,$implJavaOptAtomType$> call(
+				TableColumn<ICFIntMimeTypeObj,$implJavaOptAtomType$> arg)
 			{
 				return new CFStringTableCell<ICFIntMimeTypeObj>();
 			}
