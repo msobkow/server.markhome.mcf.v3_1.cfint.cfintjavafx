@@ -73,11 +73,11 @@ implements ICFIntJavaFXLicensePaneList
 	protected CFButton buttonEditSelected = null;
 	protected CFButton buttonDeleteSelected = null;
 	protected TableView<ICFIntLicenseObj> dataTable = null;
-	protected TableColumn<ICFIntLicenseObj, $implJavaOptAtomType$> tableColumnId = null;
-	protected TableColumn<ICFIntLicenseObj, $implJavaOptAtomType$> tableColumnName = null;
-	protected TableColumn<ICFIntLicenseObj, $implJavaOptAtomType$> tableColumnDescription = null;
-	protected TableColumn<ICFIntLicenseObj, $implJavaOptAtomType$> tableColumnEmbeddedText = null;
-	protected TableColumn<ICFIntLicenseObj, $implJavaOptAtomType$> tableColumnFullText = null;
+	protected TableColumn<ICFIntLicenseObj, ICFLibKeyHash256> tableColumnId = null;
+	protected TableColumn<ICFIntLicenseObj, String> tableColumnName = null;
+	protected TableColumn<ICFIntLicenseObj, String> tableColumnDescription = null;
+	protected TableColumn<ICFIntLicenseObj, String> tableColumnEmbeddedText = null;
+	protected TableColumn<ICFIntLicenseObj, String> tableColumnFullText = null;
 
 	public final String S_ColumnNames[] = { "Name" };
 	protected ICFFormManager cfFormManager = null;
@@ -166,116 +166,116 @@ implements ICFIntJavaFXLicensePaneList
 		javafxSortByChain = sortByChain;
 		setJavaFXDataCollection( argDataCollection );
 		dataTable = new TableView<ICFIntLicenseObj>();
-		tableColumnId = new TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>( "Id" );
-		tableColumnId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
-			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntLicenseObj, $implJavaOptAtomType$> p ) {
+		tableColumnId = new TableColumn<ICFIntLicenseObj,ICFLibKeyHash256>( "Id" );
+		tableColumnId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,ICFLibKeyHash256>,ObservableValue<ICFLibKeyHash256> >() {
+			public ObservableValue<ICFLibKeyHash256> call( CellDataFeatures<ICFIntLicenseObj, ICFLibKeyHash256> p ) {
 				ICFIntLicenseObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					$implJavaAtomType$ value = obj.getRequiredId();
-					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
+					ICFLibKeyHash256 value = obj.getRequiredId();
+					ReadOnlyObjectWrapper<ICFLibKeyHash256> observable = new ReadOnlyObjectWrapper<ICFLibKeyHash256>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnId.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>,TableCell<ICFIntLicenseObj,$implJavaOptAtomType$>>() {
-			@Override public TableCell<ICFIntLicenseObj,$implJavaOptAtomType$> call(
-				TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$> arg)
+		tableColumnId.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,ICFLibKeyHash256>,TableCell<ICFIntLicenseObj,ICFLibKeyHash256>>() {
+			@Override public TableCell<ICFIntLicenseObj,ICFLibKeyHash256> call(
+				TableColumn<ICFIntLicenseObj,ICFLibKeyHash256> arg)
 			{
 				return new CFDbKeyHash256TableCell<ICFIntLicenseObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnId );
-		tableColumnName = new TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>( "Name" );
-		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
-			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntLicenseObj, $implJavaOptAtomType$> p ) {
+		tableColumnName = new TableColumn<ICFIntLicenseObj,String>( "Name" );
+		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,String>,ObservableValue<String> >() {
+			public ObservableValue<String> call( CellDataFeatures<ICFIntLicenseObj, String> p ) {
 				ICFIntLicenseObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					$implJavaAtomType$ value = obj.getRequiredName();
-					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
+					String value = obj.getRequiredName();
+					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>,TableCell<ICFIntLicenseObj,$implJavaOptAtomType$>>() {
-			@Override public TableCell<ICFIntLicenseObj,$implJavaOptAtomType$> call(
-				TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$> arg)
+		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,String>,TableCell<ICFIntLicenseObj,String>>() {
+			@Override public TableCell<ICFIntLicenseObj,String> call(
+				TableColumn<ICFIntLicenseObj,String> arg)
 			{
 				return new CFStringTableCell<ICFIntLicenseObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnName );
-		tableColumnDescription = new TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>( "Description" );
-		tableColumnDescription.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
-			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntLicenseObj, $implJavaOptAtomType$> p ) {
+		tableColumnDescription = new TableColumn<ICFIntLicenseObj,String>( "Description" );
+		tableColumnDescription.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,String>,ObservableValue<String> >() {
+			public ObservableValue<String> call( CellDataFeatures<ICFIntLicenseObj, String> p ) {
 				ICFIntLicenseObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					$implJavaAtomType$ value = obj.getOptionalDescription();
-					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
+					String value = obj.getOptionalDescription();
+					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnDescription.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>,TableCell<ICFIntLicenseObj,$implJavaOptAtomType$>>() {
-			@Override public TableCell<ICFIntLicenseObj,$implJavaOptAtomType$> call(
-				TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$> arg)
+		tableColumnDescription.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,String>,TableCell<ICFIntLicenseObj,String>>() {
+			@Override public TableCell<ICFIntLicenseObj,String> call(
+				TableColumn<ICFIntLicenseObj,String> arg)
 			{
 				return new CFStringTableCell<ICFIntLicenseObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnDescription );
-		tableColumnEmbeddedText = new TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>( "EmbeddedText" );
-		tableColumnEmbeddedText.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
-			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntLicenseObj, $implJavaOptAtomType$> p ) {
+		tableColumnEmbeddedText = new TableColumn<ICFIntLicenseObj,String>( "EmbeddedText" );
+		tableColumnEmbeddedText.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,String>,ObservableValue<String> >() {
+			public ObservableValue<String> call( CellDataFeatures<ICFIntLicenseObj, String> p ) {
 				ICFIntLicenseObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					$implJavaAtomType$ value = obj.getOptionalEmbeddedText();
-					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
+					String value = obj.getOptionalEmbeddedText();
+					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnEmbeddedText.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>,TableCell<ICFIntLicenseObj,$implJavaOptAtomType$>>() {
-			@Override public TableCell<ICFIntLicenseObj,$implJavaOptAtomType$> call(
-				TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$> arg)
+		tableColumnEmbeddedText.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,String>,TableCell<ICFIntLicenseObj,String>>() {
+			@Override public TableCell<ICFIntLicenseObj,String> call(
+				TableColumn<ICFIntLicenseObj,String> arg)
 			{
 				return new CFTextTableCell<ICFIntLicenseObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnEmbeddedText );
-		tableColumnFullText = new TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>( "FullText" );
-		tableColumnFullText.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
-			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntLicenseObj, $implJavaOptAtomType$> p ) {
+		tableColumnFullText = new TableColumn<ICFIntLicenseObj,String>( "FullText" );
+		tableColumnFullText.setCellValueFactory( new Callback<CellDataFeatures<ICFIntLicenseObj,String>,ObservableValue<String> >() {
+			public ObservableValue<String> call( CellDataFeatures<ICFIntLicenseObj, String> p ) {
 				ICFIntLicenseObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					$implJavaAtomType$ value = obj.getOptionalFullText();
-					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
+					String value = obj.getOptionalFullText();
+					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnFullText.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$>,TableCell<ICFIntLicenseObj,$implJavaOptAtomType$>>() {
-			@Override public TableCell<ICFIntLicenseObj,$implJavaOptAtomType$> call(
-				TableColumn<ICFIntLicenseObj,$implJavaOptAtomType$> arg)
+		tableColumnFullText.setCellFactory( new Callback<TableColumn<ICFIntLicenseObj,String>,TableCell<ICFIntLicenseObj,String>>() {
+			@Override public TableCell<ICFIntLicenseObj,String> call(
+				TableColumn<ICFIntLicenseObj,String> arg)
 			{
 				return new CFTextTableCell<ICFIntLicenseObj>();
 			}

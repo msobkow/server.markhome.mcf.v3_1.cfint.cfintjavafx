@@ -81,10 +81,10 @@ implements ICFIntJavaFXURLProtocolPaneCommon,
 	protected CFButton buttonDeleteSelected = null;
 	protected List<ICFIntURLProtocolObj> listOfURLProtocol = null;
 	protected ObservableList<ICFIntURLProtocolObj> observableListOfURLProtocol = null;
-	protected TableColumn<ICFIntURLProtocolObj, $implJavaOptAtomType$> tableColumnURLProtocolId = null;
-	protected TableColumn<ICFIntURLProtocolObj, $implJavaOptAtomType$> tableColumnName = null;
-	protected TableColumn<ICFIntURLProtocolObj, $implJavaOptAtomType$> tableColumnDescription = null;
-	protected TableColumn<ICFIntURLProtocolObj, $implJavaOptAtomType$> tableColumnIsSecure = null;
+	protected TableColumn<ICFIntURLProtocolObj, Integer> tableColumnURLProtocolId = null;
+	protected TableColumn<ICFIntURLProtocolObj, String> tableColumnName = null;
+	protected TableColumn<ICFIntURLProtocolObj, String> tableColumnDescription = null;
+	protected TableColumn<ICFIntURLProtocolObj, Boolean> tableColumnIsSecure = null;
 	protected TableView<ICFIntURLProtocolObj> dataTable = null;
 
 	class ViewEditClosedCallback implements ICFFormClosedCallback {
@@ -154,95 +154,95 @@ implements ICFIntJavaFXURLProtocolPaneCommon,
 		}
 		javafxSchema = argSchema;
 		dataTable = new TableView<ICFIntURLProtocolObj>();
-		tableColumnURLProtocolId = new TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$>( "URL Protocol Id" );
-		tableColumnURLProtocolId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntURLProtocolObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
-			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntURLProtocolObj, $implJavaOptAtomType$> p ) {
+		tableColumnURLProtocolId = new TableColumn<ICFIntURLProtocolObj,Integer>( "URL Protocol Id" );
+		tableColumnURLProtocolId.setCellValueFactory( new Callback<CellDataFeatures<ICFIntURLProtocolObj,Integer>,ObservableValue<Integer> >() {
+			public ObservableValue<Integer> call( CellDataFeatures<ICFIntURLProtocolObj, Integer> p ) {
 				ICFIntURLProtocolObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					$implJavaAtomType$ value = obj.getRequiredURLProtocolId();
-					$implJavaOptAtomType$ wrapped = $implJavaOptAtomType$.valueOf( value );
-					ReadOnlyObjectWrapper<$implJavaOptAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaOptAtomType$>();
+					int value = obj.getRequiredURLProtocolId();
+					Integer wrapped = Integer.valueOf( value );
+					ReadOnlyObjectWrapper<Integer> observable = new ReadOnlyObjectWrapper<Integer>();
 					observable.setValue( wrapped );
 					return( observable );
 				}
 			}
 		});
-		tableColumnURLProtocolId.setCellFactory( new Callback<TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$>,TableCell<ICFIntURLProtocolObj,$implJavaOptAtomType$>>() {
-			@Override public TableCell<ICFIntURLProtocolObj,$implJavaOptAtomType$> call(
-				TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$> arg)
+		tableColumnURLProtocolId.setCellFactory( new Callback<TableColumn<ICFIntURLProtocolObj,Integer>,TableCell<ICFIntURLProtocolObj,Integer>>() {
+			@Override public TableCell<ICFIntURLProtocolObj,Integer> call(
+				TableColumn<ICFIntURLProtocolObj,Integer> arg)
 			{
 				return new CFInt32TableCell<ICFIntURLProtocolObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnURLProtocolId );
-		tableColumnName = new TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$>( "Name" );
-		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntURLProtocolObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
-			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntURLProtocolObj, $implJavaOptAtomType$> p ) {
+		tableColumnName = new TableColumn<ICFIntURLProtocolObj,String>( "Name" );
+		tableColumnName.setCellValueFactory( new Callback<CellDataFeatures<ICFIntURLProtocolObj,String>,ObservableValue<String> >() {
+			public ObservableValue<String> call( CellDataFeatures<ICFIntURLProtocolObj, String> p ) {
 				ICFIntURLProtocolObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					$implJavaAtomType$ value = obj.getRequiredName();
-					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
+					String value = obj.getRequiredName();
+					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$>,TableCell<ICFIntURLProtocolObj,$implJavaOptAtomType$>>() {
-			@Override public TableCell<ICFIntURLProtocolObj,$implJavaOptAtomType$> call(
-				TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$> arg)
+		tableColumnName.setCellFactory( new Callback<TableColumn<ICFIntURLProtocolObj,String>,TableCell<ICFIntURLProtocolObj,String>>() {
+			@Override public TableCell<ICFIntURLProtocolObj,String> call(
+				TableColumn<ICFIntURLProtocolObj,String> arg)
 			{
 				return new CFStringTableCell<ICFIntURLProtocolObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnName );
-		tableColumnDescription = new TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$>( "Description" );
-		tableColumnDescription.setCellValueFactory( new Callback<CellDataFeatures<ICFIntURLProtocolObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
-			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntURLProtocolObj, $implJavaOptAtomType$> p ) {
+		tableColumnDescription = new TableColumn<ICFIntURLProtocolObj,String>( "Description" );
+		tableColumnDescription.setCellValueFactory( new Callback<CellDataFeatures<ICFIntURLProtocolObj,String>,ObservableValue<String> >() {
+			public ObservableValue<String> call( CellDataFeatures<ICFIntURLProtocolObj, String> p ) {
 				ICFIntURLProtocolObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					$implJavaAtomType$ value = obj.getRequiredDescription();
-					ReadOnlyObjectWrapper<$implJavaAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaAtomType$>();
+					String value = obj.getRequiredDescription();
+					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnDescription.setCellFactory( new Callback<TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$>,TableCell<ICFIntURLProtocolObj,$implJavaOptAtomType$>>() {
-			@Override public TableCell<ICFIntURLProtocolObj,$implJavaOptAtomType$> call(
-				TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$> arg)
+		tableColumnDescription.setCellFactory( new Callback<TableColumn<ICFIntURLProtocolObj,String>,TableCell<ICFIntURLProtocolObj,String>>() {
+			@Override public TableCell<ICFIntURLProtocolObj,String> call(
+				TableColumn<ICFIntURLProtocolObj,String> arg)
 			{
 				return new CFStringTableCell<ICFIntURLProtocolObj>();
 			}
 		});
 		dataTable.getColumns().add( tableColumnDescription );
-		tableColumnIsSecure = new TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$>( "IsSecure" );
-		tableColumnIsSecure.setCellValueFactory( new Callback<CellDataFeatures<ICFIntURLProtocolObj,$implJavaOptAtomType$>,ObservableValue<$implJavaOptAtomType$> >() {
-			public ObservableValue<$implJavaOptAtomType$> call( CellDataFeatures<ICFIntURLProtocolObj, $implJavaOptAtomType$> p ) {
+		tableColumnIsSecure = new TableColumn<ICFIntURLProtocolObj,Boolean>( "IsSecure" );
+		tableColumnIsSecure.setCellValueFactory( new Callback<CellDataFeatures<ICFIntURLProtocolObj,Boolean>,ObservableValue<Boolean> >() {
+			public ObservableValue<Boolean> call( CellDataFeatures<ICFIntURLProtocolObj, Boolean> p ) {
 				ICFIntURLProtocolObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					$implJavaAtomType$ value = obj.getRequiredIsSecure();
-					$implJavaOptAtomType$ wrapped = $implJavaOptAtomType$.valueOf( value );
-					ReadOnlyObjectWrapper<$implJavaOptAtomType$> observable = new ReadOnlyObjectWrapper<$implJavaOptAtomType$>();
+					boolean value = obj.getRequiredIsSecure();
+					Boolean wrapped = Boolean.valueOf( value );
+					ReadOnlyObjectWrapper<Boolean> observable = new ReadOnlyObjectWrapper<Boolean>();
 					observable.setValue( wrapped );
 					return( observable );
 				}
 			}
 		});
-		tableColumnIsSecure.setCellFactory( new Callback<TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$>,TableCell<ICFIntURLProtocolObj,$implJavaOptAtomType$>>() {
-			@Override public TableCell<ICFIntURLProtocolObj,$implJavaOptAtomType$> call(
-				TableColumn<ICFIntURLProtocolObj,$implJavaOptAtomType$> arg)
+		tableColumnIsSecure.setCellFactory( new Callback<TableColumn<ICFIntURLProtocolObj,Boolean>,TableCell<ICFIntURLProtocolObj,Boolean>>() {
+			@Override public TableCell<ICFIntURLProtocolObj,Boolean> call(
+				TableColumn<ICFIntURLProtocolObj,Boolean> arg)
 			{
 				return new CFBoolTableCell<ICFIntURLProtocolObj>();
 			}
